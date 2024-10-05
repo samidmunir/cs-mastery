@@ -17,7 +17,12 @@ class Vortac:
 
         # Call the function to draw the airport and runways.
         # TODO: function draw_airport()
-        # TODO: function draw_runway()
+    
+    def draw_runway(self, x1, y1, x2, y2, label):
+        # Draw a simple runway line.
+        self.canvas.create_line(x1, y1, x2, y2, fill = 'white', width = 3)
+        # Label the runway.
+        self.canvas.create_text(x1, y1 - 10, text = label, fill = 'white', font = ('Helvetica', 10))
 
 if __name__ == '__main__':
     root = tk.Tk()
