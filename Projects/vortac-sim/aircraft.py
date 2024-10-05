@@ -11,3 +11,11 @@ class Aircraft:
         self.current_waypoint = 1
         self.destination = np.array(waypoints[self.current_waypoint])
         self.heading = self.calculate_heading()
+
+    def calculate_heading(self):
+        # Calculate unit vector direction from current position to the next waypoint.
+        direction = self.destination - self.position
+        distance = np.linalg.norm(direction)
+        if distance == 0:
+            return np.zeros_like(direction)
+        return direction / distance
