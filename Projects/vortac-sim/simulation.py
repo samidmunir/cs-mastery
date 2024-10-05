@@ -10,3 +10,7 @@ def initialize_aircraft(aircraft_count):
         aircraft = Aircraft(flight_number, route)
         aircrafts.append(aircraft)
     return aircrafts
+
+def update_airspace(aircrafts, time_step):
+    for aircraft in aircrafts:
+        aircraft.update_position(time_step)
