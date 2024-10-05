@@ -32,3 +32,6 @@ class Aircraft:
             if self.current_waypoint < len(self.waypoints):
                 self.destination = np.array(self.waypoints[self.current_waypoint])
                 self.heading = self.calculate_heading()
+    
+    def display_info(self):
+        return f'Flight: {self.flight_number} | Altitude: {self.altitude:.0f} ft| Speed: {self.speed:.0f} kts'
