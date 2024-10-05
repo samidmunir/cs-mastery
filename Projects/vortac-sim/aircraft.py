@@ -19,3 +19,16 @@ class Aircraft:
         if distance == 0:
             return np.zeros_like(direction)
         return direction / distance
+    
+    def update_position(self, time_step):
+        # Move the aircraft in the direction of its heading
+        distance_travelled = self.speed * time_step / 3600 # Distance in nautical miles
+        movement = self.heading * distance_travelled
+        self.position += movement
+
+        # Check if the aircraft has reached the next waypoint.
+        if np.linalg.norm(self.destination - self.position) < 1: #close enough
+            self.current_waypoint += 1
+            if self.current_waypoint < len(self.waypoints):
+                self.destination = np.array(self.waypoints[self.current_waypoint])
+                self.heading = self.calculate_heading()
