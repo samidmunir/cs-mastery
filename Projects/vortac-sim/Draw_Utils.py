@@ -1,5 +1,6 @@
 from Main import AIRPORT_ICON_PADDING, AIRPORT_NAME_TEXT_SPACING_LEFT, WAYPOINT_ICON_RADIUS
 import tkinter as tk
+import Aircraft
 import Airport
 import Runway
 import Waypoint
@@ -29,3 +30,14 @@ class Draw_Utils:
     def draw_waypoint(self, waypoint: Waypoint.Waypoint):
         self.canvas.create_oval(waypoint.x_loc - WAYPOINT_ICON_RADIUS, waypoint.y_loc - WAYPOINT_ICON_RADIUS, waypoint.x_loc + WAYPOINT_ICON_RADIUS, waypoint.y_loc + WAYPOINT_ICON_RADIUS, fill = '#ffffff' if waypoint.active else '#e10000')
         self.canvas.create_text(waypoint.x_loc + AIRPORT_NAME_TEXT_SPACING_LEFT, waypoint.y_loc, text = waypoint.name, fill = '#ffffff', font = ('Helvetica', 12))
+
+    def draw_aircraft(self, aircraft: Aircraft.Aircraft):
+        # self.canvas.create_image(aircraft.x_loc, aircraft.y_loc, image = self.airplane_icon, anchor = tk.CENTER)
+        points = [aircraft.x_loc, aircraft.y_loc - 10, aircraft.x_loc - 5, aircraft.y_loc + 5, aircraft.x_loc + 5, aircraft.y_loc + 5]
+        print(f'\naircraft.x_loc: {aircraft.x_loc}, aircraft.y_loc: {aircraft.y_loc}')
+        print('points:', points)
+        self.canvas.create_polygon(points, fill = 'blue', outline = 'white', width = 1.5)
+        
+        info = f'{aircraft.flight_number} {aircraft.ac_type}\n{aircraft.speed}kts {aircraft.altitude}ft\n{aircraft.heading}°'
+        
+        self.canvas.create_text(aircraft.x_loc + 60, aircraft.y_loc - 20, text = info, fill = '#ffffff', font = ('Helvetica', 10))

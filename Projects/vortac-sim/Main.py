@@ -1,5 +1,6 @@
 import tkinter as tk
 import Draw_Utils as DU
+import Aircraft
 import Airport
 import Runway
 import Waypoint
@@ -20,6 +21,9 @@ class Main:
         self.canvas = tk.Canvas(self.root, width = WINDOW_WIDTH, height = WINDOW_HEIGHT, bg = '#262626')
         self.canvas.pack()
 
+        # Loading in the airplane-icon image.
+        # self.airplane_icon = tk.PhotoImage(file = './icons8-plane-32.png')
+
         # Create a new Airport.
         airport = self.create_airport()
         # Draw the new Airport onto the VORTAC canvas.
@@ -39,6 +43,9 @@ class Main:
         # Draw each waypoint onto the VORTAC canvas.
         for waypoint in WAYPOINTS_LIST:
             DU.Draw_Utils(self.canvas).draw_waypoint(waypoint)
+        
+        aircraft = self.create_aircraft('SDM147', 'B789', 900.0, 450.0, 17000, 265, 360.0)
+        DU.Draw_Utils(self.canvas).draw_aircraft(aircraft)
 
     def create_airport(self) -> Airport:
         name: str = 'NX77'
@@ -67,6 +74,10 @@ class Main:
     def create_waypoint(self, name: str, x_loc: float, y_loc: float, active: bool):
         waypoint = Waypoint.Waypoint(name, x_loc, y_loc, active)
         return waypoint
+    
+    def create_aircraft(self, flight_number: str, ac_type: str, x_loc: float, y_loc: float, altitude: float, speed: float, heading: float):
+        aircraft = Aircraft.Aircraft(flight_number, ac_type, x_loc, y_loc, altitude, speed, heading)
+        return aircraft
 
 if __name__ == '__main__':
     root = tk.Tk()
