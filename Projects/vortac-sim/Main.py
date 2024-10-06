@@ -2,12 +2,14 @@ import tkinter as tk
 import Draw_Utils as DU
 import Airport
 import Runway
+import Waypoint
 
 WINDOW_WIDTH = 1200.0 # units in px
 WINDOW_HEIGHT = 800.0 # units in px
 AIRPORT_ICON_PADDING = 10.0 # units in px
 AIRPORT_NAME_TEXT_SPACING_LEFT = 40.0 # units in px
 RUNWAY_LENGTH_SCALAR = 0.010 # Adjust this value to scale the runway length.
+WAYPOINT_ICON_RADIUS = 5.0 # units in px
 
 class Main:
     def __init__(self, root):
@@ -27,7 +29,17 @@ class Main:
         runway = self.create_runway(airport)
         # Draw the new Runway onto the VORTAC canvas.
         DU.Draw_Utils(self.canvas).draw_runway(runway)
-    
+
+        # Create a list of waypoints as (name, (x, y))
+        waypoints = [('Alpha', (1000, 200)), ('Beta', (200, 200)), ('Charlie', (1000, 600)), ('Delta', (200, 600))]
+        WAYPOINTS_LIST = []
+        for waypoint in waypoints:
+            new_waypoint = Waypoint.Waypoint(waypoint[0], waypoint[1][0], waypoint[1][1])
+            WAYPOINTS_LIST.append(new_waypoint)
+        # Draw each waypoint onto the VORTAC canvas.
+        for waypoint in WAYPOINTS_LIST:
+            DU.Draw_Utils(self.canvas).draw_waypoint(waypoint)
+
     def create_airport(self) -> Airport:
         name: str = 'NX77'
         loc_x: float = 600.0
@@ -51,6 +63,10 @@ class Main:
         runway = Runway.Runway(name, length, heading, start_loc_x, start_loc_y, end_loc_x, end_loc_y, active)
         print('\nnew runway created!')
         return runway
+
+    def create_waypoint(self, name: str, x_loc: float, y_loc: float, active: bool):
+        waypoint = Waypoint.Waypoint(name, x_loc, y_loc, active)
+        return waypoint
 
 if __name__ == '__main__':
     root = tk.Tk()
