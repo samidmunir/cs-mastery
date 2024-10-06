@@ -1,57 +1,18 @@
-import pygame
-import numpy as np
-from simulation import initialize_aircraft, update_airspace
-from waypoints import get_waypoints
+import tkinter as tk
 
-# Initialize pygame module
-pygame.init()
-screen = pygame.display.set_mode((1200, 800))
-pygame.display.set_caption('AI Airspace Simulation')
-font = pygame.font.Font(None, 24)
+WINDOW_WIDTH = 1200 # units in px
+WINDOW_HEIGHT = 800 # units in px
 
-# Colors
-WHITE = (255, 255, 255)
-BLUE = (0, 0, 255)
+class Main:
+    def __init__(self, root):
+        self.root = root
+        self.root.title('Vortac Sim: Air Traffic Control Radar')
 
-# Function to draw aircraft on screen.
-def draw_aircraft(screen, aircraft):
-    # Draw the aircraft as a blue circle.
-    pygame.draw.circle(screen, BLUE, aircraft.position.astype(int), 5)
-    # Draw flight info
-    text = font.render(aircraft.display_info(), True, WHITE)
-    screen.blit(text, aircraft.position.astype(int) + np.array([10, -20]))
+        # Setting up the VORTAC canvas.
+        self.canvas = tk.Canvas(self.root, width = WINDOW_WIDTH, height = WINDOW_HEIGHT, bg = '#262626')
+        self.canvas.pack()
 
-def run_simulation(aircraft_count):
-    # Initialize aircraft
-    aircrafts = initialize_aircraft(aircraft_count)
-
-    clock = pygame.time.Clock()
-    running = True
-    while running:
-        # Handle events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-        
-        # Clear the screen
-        (screen.fill((0, 0, 0)))
-
-        # Update airspace
-        time_step = clock.get_time() / 1000 # Time step in seconds
-        update_airspace(aircrafts, time_step)
-
-        # Draw all aircrafts
-        for aircraft in aircrafts:
-            draw_aircraft(screen, aircraft)
-
-        # Update the display
-        pygame.display.flip()
-
-        # Limit frame rate
-        clock.tick(60)
-
-    pygame.quit()
-
-# Run the simulation
 if __name__ == '__main__':
-    run_simulation(3)
+    root = tk.Tk()
+    app = Main(root)
+    root.mainloop()
