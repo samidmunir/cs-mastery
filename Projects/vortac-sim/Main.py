@@ -1,11 +1,13 @@
 import tkinter as tk
 import Draw_Utils as DU
 import Airport
+import Runway
 
 WINDOW_WIDTH = 1200.0 # units in px
 WINDOW_HEIGHT = 800.0 # units in px
 AIRPORT_ICON_PADDING = 10.0 # units in px
 AIRPORT_NAME_TEXT_SPACING_LEFT = 40.0 # units in px
+RUNWAY_LENGTH_SCALAR = 0.010 # Adjust this value to scale the runway length.
 
 class Main:
     def __init__(self, root):
@@ -19,21 +21,36 @@ class Main:
         # Create a new Airport.
         airport = self.create_airport()
         # Draw the new Airport onto the VORTAC canvas.
-        # TODO: Use Draw_Utils to draw the airport.
         DU.Draw_Utils(self.canvas).draw_airport(airport)
 
-        # draw_util = du.Draw_Utils(self.canvas)
-        # draw_util.draw_airport(self, 'N51', 600.0, 400.0, 2, '18')
+        # Create respective runways.
+        runway = self.create_runway(airport)
+        # Draw the new Runway onto the VORTAC canvas.
+        DU.Draw_Utils(self.canvas).draw_runway(runway)
     
     def create_airport(self) -> Airport:
         name: str = 'NX77'
         loc_x: float = 600.0
         loc_y: float = 400.0
         number_of_runways: int = 1
-        runways = ['18']
+        runways = ['36']
         airport = Airport.Airport(name, loc_x, loc_y, number_of_runways, runways)
         print('\nnew airport created!')
         return airport
+    
+    def create_runway(self, airport: Airport):
+        # TODO: Implement this method to create a new runway based on the provided airport.
+        name: str = '36'
+        length: float = 10000.0
+        heading:float = 360.0
+        start_loc_x = 600
+        start_loc_y = 400 + AIRPORT_ICON_PADDING
+        end_loc_x = 600
+        end_loc_y = 400 + AIRPORT_ICON_PADDING + (length * RUNWAY_LENGTH_SCALAR)
+        active = True
+        runway = Runway.Runway(name, length, heading, start_loc_x, start_loc_y, end_loc_x, end_loc_y, active)
+        print('\nnew runway created!')
+        return runway
 
 if __name__ == '__main__':
     root = tk.Tk()
